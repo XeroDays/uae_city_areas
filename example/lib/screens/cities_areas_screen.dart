@@ -21,7 +21,7 @@ class _CitiesAreasScreenState extends State<CitiesAreasScreen> {
   @override
   void initState() {
     super.initState();
-    UaeCityAreas.loggingEnabled = true;
+    UAECityAreasPlugin.loggingEnabled = true;
 
     _loadCities();
   }
@@ -32,7 +32,7 @@ class _CitiesAreasScreenState extends State<CitiesAreasScreen> {
       _error = null;
     });
     try {
-      final cities = await UaeCityAreas.getCities();
+      final cities = await UAECityAreasPlugin.getCities();
 
       if (mounted)
         setState(() {
@@ -61,7 +61,7 @@ class _CitiesAreasScreenState extends State<CitiesAreasScreen> {
       _error = null;
     });
     try {
-      final areas = await UaeCityAreas.getAreasByCityId(city.id);
+      final areas = await UAECityAreasPlugin.getAreasByCityId(city.id);
       if (mounted)
         setState(() {
           _areas = areas;

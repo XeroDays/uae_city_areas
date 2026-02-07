@@ -8,12 +8,12 @@ import 'logging.dart';
 ///
 /// Example:
 /// ```dart
-/// UaeCityAreas.loggingEnabled = true;  // optional: enable plugin logging
-/// final cities = await UaeCityAreas.getCities();
-/// final areas = await UaeCityAreas.getAreasByCityId(cityId);
+/// UAECityAreasPlugin.loggingEnabled = true;  // optional: enable plugin logging
+/// final cities = await UAECityAreasPlugin.getCities();
+/// final areas = await UAECityAreasPlugin.getAreasByCityId(cityId);
 /// ```
-class UaeCityAreas {
-  UaeCityAreas._();
+class UAECityAreasPlugin {
+  UAECityAreasPlugin._();
 
   static CitiesAreasService? _service;
 

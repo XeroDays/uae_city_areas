@@ -35,32 +35,32 @@ Call the plugin directly via static methods:
 import 'package:uae_city_areas/uae_city_areas.dart';
 
 // Fetch cities (no need to create any object)
-final cities = await UaeCityAreas.getCities();
+final cities = await UAECityAreasPlugin.getCities();
 
 // Fetch areas for a city
-final areas = await UaeCityAreas.getAreasByCityId(cityId);
+final areas = await UAECityAreasPlugin.getAreasByCityId(cityId);
 ```
 
 ### Force Refresh
 
 ```dart
-final cities = await UaeCityAreas.getCities(forceRefresh: true);
-final areas = await UaeCityAreas.getAreasByCityId(cityId, forceRefresh: true);
+final cities = await UAECityAreasPlugin.getCities(forceRefresh: true);
+final areas = await UAECityAreasPlugin.getAreasByCityId(cityId, forceRefresh: true);
 ```
 
 ### Cache Management
 
 ```dart
-await UaeCityAreas.clearCache();
-await UaeCityAreas.clearCitiesCache();
-await UaeCityAreas.clearAreasCache(cityId);   // or null to clear all
+await UAECityAreasPlugin.clearCache();
+await UAECityAreasPlugin.clearCitiesCache();
+await UAECityAreasPlugin.clearAreasCache(cityId);   // or null to clear all
 ```
 
 ### Error Handling
 
 ```dart
 try {
-  final cities = await UaeCityAreas.getCities();
+  final cities = await UAECityAreasPlugin.getCities();
 } on NetworkException catch (e) {
   // Handle network error
 } on ApiException catch (e) {
@@ -80,24 +80,24 @@ Logging is off by default. Enable it to print plugin actions (API calls, cache h
 import 'package:uae_city_areas/uae_city_areas.dart';
 
 void main() {
-  UaeCityAreas.loggingEnabled = true;  // Enable plugin logging
+  UAECityAreasPlugin.loggingEnabled = true;  // Enable plugin logging
   runApp(MyApp());
 }
 ```
 
 ## API
 
-### UaeCityAreas (static – use this, no object creation)
+### UAECityAreasPlugin (static – use this, no object creation)
 
 Call these directly:
 
-- `UaeCityAreas.getCities({bool forceRefresh = false})` - Fetch all cities/emirates
-- `UaeCityAreas.getAreasByCityId(int cityId, {bool forceRefresh = false})` - Fetch areas for a city
-- `UaeCityAreas.getAreasByCity(City city, {bool forceRefresh = false})` - Fetch areas by City object
-- `UaeCityAreas.clearCache()` - Clear all cached data
-- `UaeCityAreas.clearCitiesCache()` - Clear only cities cache
-- `UaeCityAreas.clearAreasCache(int? cityId)` - Clear areas cache (specific city or all)
-- `UaeCityAreas.loggingEnabled` - Get or set plugin logging (default: false)
+- `UAECityAreasPlugin.getCities({bool forceRefresh = false})` - Fetch all cities/emirates
+- `UAECityAreasPlugin.getAreasByCityId(int cityId, {bool forceRefresh = false})` - Fetch areas for a city
+- `UAECityAreasPlugin.getAreasByCity(City city, {bool forceRefresh = false})` - Fetch areas by City object
+- `UAECityAreasPlugin.clearCache()` - Clear all cached data
+- `UAECityAreasPlugin.clearCitiesCache()` - Clear only cities cache
+- `UAECityAreasPlugin.clearAreasCache(int? cityId)` - Clear areas cache (specific city or all)
+- `UAECityAreasPlugin.loggingEnabled` - Get or set plugin logging (default: false)
 
 ### Models
 
@@ -147,15 +147,15 @@ import 'package:uae_city_areas/uae_city_areas.dart';
 
 Future<void> loadCitiesAndAreas() async {
   // 1. Get all cities (emirates)
-  final cities = await UaeCityAreas.getCities();
+  final cities = await UAECityAreasPlugin.getCities();
   if (cities.isEmpty) return;
 
   // 2. Pick a city (e.g. first one, or by user selection)
   final selectedCity = cities.first;
 
   // 3. Get areas for that city (by ID or by City object)
-  final areas = await UaeCityAreas.getAreasByCityId(selectedCity.id);
-  // Or: final areas = await UaeCityAreas.getAreasByCity(selectedCity);
+  final areas = await UAECityAreasPlugin.getAreasByCityId(selectedCity.id);
+  // Or: final areas = await UAECityAreasPlugin.getAreasByCity(selectedCity);
 
   // Use the data
   for (final city in cities) {
@@ -170,8 +170,8 @@ Future<void> loadCitiesAndAreas() async {
 With force refresh (bypass cache):
 
 ```dart
-final cities = await UaeCityAreas.getCities(forceRefresh: true);
-final areas = await UaeCityAreas.getAreasByCityId(cityId, forceRefresh: true);
+final cities = await UAECityAreasPlugin.getCities(forceRefresh: true);
+final areas = await UAECityAreasPlugin.getAreasByCityId(cityId, forceRefresh: true);
 ```
 
 ## Example app
