@@ -95,7 +95,7 @@ Logging is off by default. Enable it to print plugin actions (API calls, cache h
 import 'package:uae_city_areas/uae_city_areas.dart';
 
 void main() {
-  UaeCityAreasLogging.enable = true;  // Enable plugin logging
+  UaeCityAreas.loggingEnabled = true;  // Enable plugin logging
   runApp(MyApp());
 }
 ```

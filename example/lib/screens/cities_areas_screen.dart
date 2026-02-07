@@ -21,7 +21,7 @@ class _CitiesAreasScreenState extends State<CitiesAreasScreen> {
   @override
   void initState() {
     super.initState();
-    UaeCityAreasLogging.enable = true;
+    UaeCityAreas.loggingEnabled = true;
     _loadCities();
   }
 

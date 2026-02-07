@@ -16,12 +16,18 @@ class Area {
     required this.emirateId,
   });
 
-  /// Creates an Area instance from JSON map
+  /// Creates an Area instance from JSON map.
+  /// Tolerates null or missing fields and alternate keys (e.g. areaId, areaName).
   factory Area.fromJson(Map<String, dynamic> json) {
+    final id = json['id'] ?? json['areaId'];
+    final name = json['name'] ?? json['areaName'] ?? '';
+    final emirateId = json['emirateId'] ?? json['emirateID'];
     return Area(
-      id: json['id'] as int,
-      name: json['name'] as String,
-      emirateId: json['emirateId'] as int,
+      id: id is int ? id : int.tryParse(id?.toString() ?? '0') ?? 0,
+      name: name is String ? name : (name?.toString() ?? ''),
+      emirateId: emirateId is int
+          ? emirateId
+          : int.tryParse(emirateId?.toString() ?? '0') ?? 0,
     );
   }
 

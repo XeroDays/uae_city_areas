@@ -53,8 +53,9 @@ class CitiesAreasApi {
       final jsonData = json.decode(response) as List;
 
       final areas = jsonData.map((item) {
-        final areaJson = item as Map<String, dynamic>;
-        if (!areaJson.containsKey('emirateId')) {
+        final areaJson =
+            Map<String, dynamic>.from(item as Map<String, dynamic>);
+        if (areaJson['emirateId'] == null) {
           areaJson['emirateId'] = cityId;
         }
         return Area.fromJson(areaJson);

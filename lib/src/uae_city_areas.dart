@@ -1,11 +1,13 @@
 import 'cities_areas_service.dart';
 import 'models/city.dart';
 import 'models/area.dart';
+import 'logging.dart';
 
 /// Static API for UAE City Areas plugin. Call directly without creating any object.
 ///
 /// Example:
 /// ```dart
+/// UaeCityAreas.loggingEnabled = true;  // optional: enable plugin logging
 /// final cities = await UaeCityAreas.getCities();
 /// final areas = await UaeCityAreas.getAreasByCityId(cityId);
 /// ```
@@ -15,6 +17,10 @@ class UaeCityAreas {
   UaeCityAreas._();
 
   static CitiesAreasService? _service;
+
+  /// When true, the plugin logs actions to the console. Default is false.
+  static bool get loggingEnabled => UaeCityAreasLogging.enable;
+  static set loggingEnabled(bool value) => UaeCityAreasLogging.enable = value;
 
   static CitiesAreasService get _instance {
     _service ??= CitiesAreasService();

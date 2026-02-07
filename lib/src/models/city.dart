@@ -16,13 +16,14 @@ class City {
     required this.nameArabic,
   });
 
-  /// Creates a City instance from JSON map
-  /// Maps from API's "emirate" terminology to "City"
+  /// Creates a City instance from JSON map.
+  /// Accepts API format (emirateName, emirateNameArabic) or cache format (name, nameArabic).
   factory City.fromJson(Map<String, dynamic> json) {
     return City(
       id: json['id'] as int,
-      name: json['emirateName'] as String,
-      nameArabic: json['emirateNameArabic'] as String,
+      name: (json['emirateName'] ?? json['name']) as String? ?? '',
+      nameArabic:
+          (json['emirateNameArabic'] ?? json['nameArabic']) as String? ?? '',
     );
   }
 
