@@ -5,10 +5,10 @@ A **Flutter** plugin for **UAE** **cities**, **areas**, and **locations**. Fetch
 ## Screenshots
 
 <div style="display:flex; flex-wrap: wrap;">
-  <code><img height="500px" src="https://raw.githubusercontent.com/xerodasy/uae_city_areas/main/github-assets/uae%20city%20areas%20screen%201.jpg"></code>
-  <code><img height="500px" src="https://raw.githubusercontent.com/xerodasy/uae_city_areas/main/github-assets/uae%20city%20areas%20screen%202.jpg"></code>
-  <code><img height="500px" src="https://raw.githubusercontent.com/xerodasy/uae_city_areas/main/github-assets/uae%20city%20areas%20screen%203.jpg"></code>
-  <code><img height="500px" src="https://raw.githubusercontent.com/xerodasy/uae_city_areas/main/github-assets/uae%20city%20areas%20screen%204.jpg"></code>
+  <code><img height="500px" src="https://raw.githubusercontent.com/XeroDays/uae_city_areas/main/github-assets/uae%20city%20areas%20screen%201.jpg"></code>
+  <code><img height="500px" src="https://raw.githubusercontent.com/xerodasy/XeroDays/main/github-assets/uae%20city%20areas%20screen%202.jpg"></code>
+  <code><img height="500px" src="https://raw.githubusercontent.com/xerodasy/XeroDays/main/github-assets/uae%20city%20areas%20screen%203.jpg"></code>
+  <code><img height="500px" src="https://raw.githubusercontent.com/xerodasy/XeroDays/main/github-assets/uae%20city%20areas%20screen%204.jpg"></code>
 </div>
 
 ## Features
