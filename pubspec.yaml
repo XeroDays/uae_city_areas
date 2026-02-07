@@ -1,6 +1,6 @@
 name: uae_city_areas
 description: A Flutter plugin for fetching cities/emirates and areas from UAE API with persistent caching support.
-version: 1.0.0+1
+version: 1.0.0+2
 repository: https://github.com/XeroDays/uae_city_areas.git
 homepage: https://github.com/XeroDays/uae_city_areas
 
