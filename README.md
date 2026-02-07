@@ -11,20 +11,6 @@ A **Flutter** plugin for **UAE** **cities**, **areas**, and **locations**. Fetch
 - ⚡ Fast offline support with cached data
 - 🎯 Simple and intuitive API for UAE locations in Flutter
 
-## Installation
-
-Add the UAE cities and areas plugin to your Flutter app's `pubspec.yaml`:
-
-```yaml
-dependencies:
-  uae_city_areas:
-    path: ../path/to/uae_city_areas  # or use git/pub.dev if published
-  http: ^1.0.0  # Add version you want to use
-  shared_preferences: ^2.2.0  # Add version you want to use
-```
-
-**Note:** The plugin doesn't specify dependency versions, so you must add `http` and `shared_preferences` with your preferred versions in your app's `pubspec.yaml`.
-
 ## Usage
 
 ### Basic Usage (no object creation)
