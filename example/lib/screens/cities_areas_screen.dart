@@ -120,6 +120,7 @@ class _CitiesAreasScreenState extends State<CitiesAreasScreen> {
                     child: Center(child: CircularProgressIndicator()))
                 : DropdownButtonFormField<City>(
                     value: _selectedCity,
+                    isExpanded: true,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       contentPadding:
@@ -128,7 +129,9 @@ class _CitiesAreasScreenState extends State<CitiesAreasScreen> {
                     hint: const Text('Select city...'),
                     items: _cities
                         .map((c) => DropdownMenuItem<City>(
-                            value: c, child: Text(c.name)))
+                            value: c,
+                            child:
+                                Text(c.name, overflow: TextOverflow.ellipsis)))
                         .toList(),
                     onChanged: (City? city) => _onCityChanged(city),
                   ),
@@ -141,6 +144,7 @@ class _CitiesAreasScreenState extends State<CitiesAreasScreen> {
                     child: Center(child: CircularProgressIndicator()))
                 : DropdownButtonFormField<Area>(
                     value: _selectedArea,
+                    isExpanded: true,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       contentPadding:
@@ -151,7 +155,9 @@ class _CitiesAreasScreenState extends State<CitiesAreasScreen> {
                         : 'Select area...'),
                     items: _areas
                         .map((a) => DropdownMenuItem<Area>(
-                            value: a, child: Text(a.name)))
+                            value: a,
+                            child:
+                                Text(a.name, overflow: TextOverflow.ellipsis)))
                         .toList(),
                     onChanged: _selectedCity == null
                         ? null
