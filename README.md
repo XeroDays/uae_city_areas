@@ -140,26 +140,49 @@ The plugin uses persistent storage caching with `shared_preferences`:
 
 Cache persists across app restarts, so subsequent launches are instant.
 
-## Example
+## Example: Get cities and areas for a city
 
-See the `example/` directory for a complete Flutter app demonstrating UAE cities, areas, and emirates (locations) selection.
+```dart
+import 'package:uae_city_areas/uae_city_areas.dart';
 
-Run the example:
+Future<void> loadCitiesAndAreas() async {
+  // 1. Get all cities (emirates)
+  final cities = await UaeCityAreas.getCities();
+  if (cities.isEmpty) return;
+
+  // 2. Pick a city (e.g. first one, or by user selection)
+  final selectedCity = cities.first;
+
+  // 3. Get areas for that city (by ID or by City object)
+  final areas = await UaeCityAreas.getAreasByCityId(selectedCity.id);
+  // Or: final areas = await UaeCityAreas.getAreasByCity(selectedCity);
+
+  // Use the data
+  for (final city in cities) {
+    print('${city.name} (${city.nameArabic})');
+  }
+  for (final area in areas) {
+    print('  - ${area.name}');
+  }
+}
+```
+
+With force refresh (bypass cache):
+
+```dart
+final cities = await UaeCityAreas.getCities(forceRefresh: true);
+final areas = await UaeCityAreas.getAreasByCityId(cityId, forceRefresh: true);
+```
+
+## Example app
+
+See the `example/` directory for a complete Flutter app with city and area dropdowns.
 
 ```bash
 cd example
 flutter pub get
 flutter run
 ```
-
-## API Endpoints
-
-The plugin uses the following endpoints for UAE emirates and areas:
-
-- **Cities / Emirates**: `GET /api/geoemirates/get`
-- **Areas / Locations**: `GET /api/geoemirates/GetAreasByEmirateId/{id}`
-
-Base URL is fixed at `https://api.softasium.com`.
 
 ## License
 
