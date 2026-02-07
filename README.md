@@ -2,6 +2,15 @@
 
 A **Flutter** plugin for **UAE** **cities**, **areas**, and **locations**. Fetch all **emirates** and their **areas** from the UAE API with built-in persistent caching—ideal for location pickers, address forms, and region selection in Flutter apps.
 
+## Screenshots
+
+<div style="display:flex; flex-wrap: wrap;">
+  <code><img height="500px" src="https://raw.githubusercontent.com/xerodasy/uae_city_areas/main/github-assets/uae%20city%20areas%20screen%201.jpg"></code>
+  <code><img height="500px" src="https://raw.githubusercontent.com/xerodasy/uae_city_areas/main/github-assets/uae%20city%20areas%20screen%202.jpg"></code>
+  <code><img height="500px" src="https://raw.githubusercontent.com/xerodasy/uae_city_areas/main/github-assets/uae%20city%20areas%20screen%203.jpg"></code>
+  <code><img height="500px" src="https://raw.githubusercontent.com/xerodasy/uae_city_areas/main/github-assets/uae%20city%20areas%20screen%204.jpg"></code>
+</div>
+
 ## Features
 
 - 🏙️ Fetch UAE **cities** and **emirates** with English and Arabic names
