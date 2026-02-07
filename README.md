@@ -1,19 +1,19 @@
 # UAE Cities & Areas for Flutter
 
-A Flutter plugin for fetching cities/emirates and areas from the UAE API with built-in persistent caching support.
+A **Flutter** plugin for **UAE** **cities**, **areas**, and **locations**. Fetch all **emirates** and their **areas** from the UAE API with built-in persistent caching—ideal for location pickers, address forms, and region selection in Flutter apps.
 
 ## Features
 
-- 🏙️ Fetch cities/emirates with English and Arabic names
-- 📍 Fetch areas for any city/emirate
+- 🏙️ Fetch UAE **cities** and **emirates** with English and Arabic names
+- 📍 Fetch **areas** and **locations** for any **emirate** or city
 - 💾 Persistent storage caching (survives app restarts)
 - 🔄 Force refresh option to bypass cache
 - ⚡ Fast offline support with cached data
-- 🎯 Simple and intuitive API
+- 🎯 Simple and intuitive API for UAE locations in Flutter
 
 ## Installation
 
-Add this to your `pubspec.yaml`:
+Add the UAE cities and areas plugin to your Flutter app's `pubspec.yaml`:
 
 ```yaml
 dependencies:
@@ -98,7 +98,7 @@ try {
 
 ### CitiesAreasService
 
-Main service class for fetching cities and areas.
+Main service class for fetching UAE cities, emirates, and areas (locations) in your Flutter app.
 
 #### Methods
 
@@ -152,7 +152,7 @@ Cache persists across app restarts, so subsequent launches are instant.
 
 ## Example
 
-See the `example/` directory for a complete Flutter app demonstrating plugin usage.
+See the `example/` directory for a complete Flutter app demonstrating UAE cities, areas, and emirates (locations) selection.
 
 Run the example:
 
@@ -164,10 +164,10 @@ flutter run
 
 ## API Endpoints
 
-The plugin uses the following endpoints:
+The plugin uses the following endpoints for UAE emirates and areas:
 
-- **Cities**: `GET /api/geoemirates/get`
-- **Areas**: `GET /api/geoemirates/GetAreasByEmirateId/{id}`
+- **Cities / Emirates**: `GET /api/geoemirates/get`
+- **Areas / Locations**: `GET /api/geoemirates/GetAreasByEmirateId/{id}`
 
 Base URL defaults to `https://api.softasium.com` but can be configured.
 
