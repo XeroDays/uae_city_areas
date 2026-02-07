@@ -41,21 +41,6 @@ final cities = await UaeCityAreas.getCities();
 final areas = await UaeCityAreas.getAreasByCityId(cityId);
 ```
 
-### Optional: Custom Configuration
-
-Call once at app startup if you need a custom base URL or headers:
-
-```dart
-void main() {
-  UaeCityAreas.configure(
-    baseUrl: 'https://api.softasium.com',
-    headers: {'Authorization': 'Bearer token'},
-    cacheTTL: Duration(days: 7),
-  );
-  runApp(MyApp());
-}
-```
-
 ### Force Refresh
 
 ```dart
@@ -112,11 +97,7 @@ Call these directly:
 - `UaeCityAreas.clearCache()` - Clear all cached data
 - `UaeCityAreas.clearCitiesCache()` - Clear only cities cache
 - `UaeCityAreas.clearAreasCache(int? cityId)` - Clear areas cache (specific city or all)
-- `UaeCityAreas.configure(...)` - Optional one-time config (baseUrl, headers, cacheTTL)
-
-### CitiesAreasService (optional)
-
-For custom instances (e.g. multiple base URLs), create `CitiesAreasService()` and use its methods. Most apps can use `UaeCityAreas` static API only.
+- `UaeCityAreas.loggingEnabled` - Get or set plugin logging (default: false)
 
 ### Models
 
@@ -178,7 +159,7 @@ The plugin uses the following endpoints for UAE emirates and areas:
 - **Cities / Emirates**: `GET /api/geoemirates/get`
 - **Areas / Locations**: `GET /api/geoemirates/GetAreasByEmirateId/{id}`
 
-Base URL defaults to `https://api.softasium.com` but can be configured.
+Base URL is fixed at `https://api.softasium.com`.
 
 ## License
 

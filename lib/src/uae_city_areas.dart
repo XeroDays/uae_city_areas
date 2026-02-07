@@ -4,6 +4,7 @@ import 'models/area.dart';
 import 'logging.dart';
 
 /// Static API for UAE City Areas plugin. Call directly without creating any object.
+/// Uses the fixed API at https://api.softasium.com only.
 ///
 /// Example:
 /// ```dart
@@ -11,8 +12,6 @@ import 'logging.dart';
 /// final cities = await UaeCityAreas.getCities();
 /// final areas = await UaeCityAreas.getAreasByCityId(cityId);
 /// ```
-///
-/// Optional: call [configure] once (e.g. in main()) to set base URL or headers.
 class UaeCityAreas {
   UaeCityAreas._();
 
@@ -25,19 +24,6 @@ class UaeCityAreas {
   static CitiesAreasService get _instance {
     _service ??= CitiesAreasService();
     return _service!;
-  }
-
-  /// Configure the plugin (optional). Call once at app startup if you need custom base URL or headers.
-  static void configure({
-    String? baseUrl,
-    Map<String, String>? headers,
-    Duration? cacheTTL,
-  }) {
-    _service = CitiesAreasService(
-      baseUrl: baseUrl ?? 'https://api.softasium.com',
-      headers: headers,
-      cacheTTL: cacheTTL,
-    );
   }
 
   /// Fetches all cities/emirates. Uses cache unless [forceRefresh] is true.

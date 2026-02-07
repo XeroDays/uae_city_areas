@@ -22,6 +22,7 @@ class _CitiesAreasScreenState extends State<CitiesAreasScreen> {
   void initState() {
     super.initState();
     UaeCityAreas.loggingEnabled = true;
+
     _loadCities();
   }
 
@@ -32,6 +33,7 @@ class _CitiesAreasScreenState extends State<CitiesAreasScreen> {
     });
     try {
       final cities = await UaeCityAreas.getCities();
+
       if (mounted)
         setState(() {
           _cities = cities;

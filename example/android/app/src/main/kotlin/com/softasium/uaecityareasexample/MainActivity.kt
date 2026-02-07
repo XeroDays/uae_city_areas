@@ -1,4 +1,4 @@
-package com.example.example
+package com.softasium.uaecityareasexample
 
 import io.flutter.embedding.android.FlutterActivity
 
