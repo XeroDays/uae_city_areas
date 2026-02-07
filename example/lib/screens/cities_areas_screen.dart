@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:uae_city_areas/uae_city_areas.dart';
-import '../viewmodels/cities_areas_viewmodel.dart';
 
-/// View: two dropdowns (cities, then areas). All logic in [CitiesAreasViewModel].
+/// Screen with two dropdowns (cities, then areas). Uses basic setState.
 class CitiesAreasScreen extends StatefulWidget {
   const CitiesAreasScreen({super.key});
 
@@ -11,28 +10,73 @@ class CitiesAreasScreen extends StatefulWidget {
 }
 
 class _CitiesAreasScreenState extends State<CitiesAreasScreen> {
-  late final CitiesAreasViewModel _viewModel;
+  List<City> _cities = [];
+  List<Area> _areas = [];
+  City? _selectedCity;
+  Area? _selectedArea;
+  bool _loadingCities = false;
+  bool _loadingAreas = false;
+  String? _error;
 
   @override
   void initState() {
     super.initState();
-    _viewModel = CitiesAreasViewModel();
+    UaeCityAreasLogging.enable = true;
     _loadCities();
   }
 
   Future<void> _loadCities() async {
-    await _viewModel.loadCities();
-    if (mounted) setState(() {});
+    setState(() {
+      _loadingCities = true;
+      _error = null;
+    });
+    try {
+      final cities = await UaeCityAreas.getCities();
+      if (mounted)
+        setState(() {
+          _cities = cities;
+          _loadingCities = false;
+        });
+    } catch (e) {
+      if (mounted)
+        setState(() {
+          _error = e.toString();
+          _loadingCities = false;
+        });
+    }
   }
 
   Future<void> _onCityChanged(City? city) async {
-    await _viewModel.selectCity(city);
-    if (mounted) setState(() {});
+    setState(() {
+      _selectedCity = city;
+      _selectedArea = null;
+      _areas = [];
+    });
+    if (city == null) return;
+
+    setState(() {
+      _loadingAreas = true;
+      _error = null;
+    });
+    try {
+      final areas = await UaeCityAreas.getAreasByCityId(city.id);
+      if (mounted)
+        setState(() {
+          _areas = areas;
+          _loadingAreas = false;
+        });
+    } catch (e) {
+      if (mounted)
+        setState(() {
+          _error = e.toString();
+          _loadingAreas = false;
+        });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    if (_viewModel.error != null) {
+    if (_error != null) {
       return Scaffold(
         appBar: AppBar(title: const Text('Cities & Areas')),
         body: Center(
@@ -42,7 +86,7 @@ class _CitiesAreasScreenState extends State<CitiesAreasScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  _viewModel.error!,
+                  _error!,
                   textAlign: TextAlign.center,
                   style: TextStyle(color: Theme.of(context).colorScheme.error),
                 ),
@@ -67,44 +111,52 @@ class _CitiesAreasScreenState extends State<CitiesAreasScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Text('City / Emirate', style: TextStyle(fontWeight: FontWeight.w600)),
+            const Text('City / Emirate',
+                style: TextStyle(fontWeight: FontWeight.w600)),
             const SizedBox(height: 8),
-            _viewModel.loadingCities
-                ? const SizedBox(height: 56, child: Center(child: CircularProgressIndicator()))
+            _loadingCities
+                ? const SizedBox(
+                    height: 56,
+                    child: Center(child: CircularProgressIndicator()))
                 : DropdownButtonFormField<City>(
-                    value: _viewModel.selectedCity,
+                    value: _selectedCity,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
-                      contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                      contentPadding:
+                          EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                     ),
                     hint: const Text('Select city...'),
-                    items: _viewModel.cities
-                        .map((c) => DropdownMenuItem<City>(value: c, child: Text(c.name)))
+                    items: _cities
+                        .map((c) => DropdownMenuItem<City>(
+                            value: c, child: Text(c.name)))
                         .toList(),
                     onChanged: (City? city) => _onCityChanged(city),
                   ),
             const SizedBox(height: 24),
             const Text('Area', style: TextStyle(fontWeight: FontWeight.w600)),
             const SizedBox(height: 8),
-            _viewModel.loadingAreas
-                ? const SizedBox(height: 56, child: Center(child: CircularProgressIndicator()))
+            _loadingAreas
+                ? const SizedBox(
+                    height: 56,
+                    child: Center(child: CircularProgressIndicator()))
                 : DropdownButtonFormField<Area>(
-                    value: _viewModel.selectedArea,
+                    value: _selectedArea,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
-                      contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                      contentPadding:
+                          EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                     ),
-                    hint: Text(_viewModel.selectedCity == null
+                    hint: Text(_selectedCity == null
                         ? 'Select a city first'
                         : 'Select area...'),
-                    items: _viewModel.areas
-                        .map((a) => DropdownMenuItem<Area>(value: a, child: Text(a.name)))
+                    items: _areas
+                        .map((a) => DropdownMenuItem<Area>(
+                            value: a, child: Text(a.name)))
                         .toList(),
-                    onChanged: _viewModel.selectedCity == null
+                    onChanged: _selectedCity == null
                         ? null
                         : (Area? area) {
-                            _viewModel.selectArea(area);
-                            setState(() {});
+                            setState(() => _selectedArea = area);
                           },
                   ),
           ],

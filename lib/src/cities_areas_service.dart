@@ -4,6 +4,7 @@ import 'api/cities_areas_api.dart';
 import 'cache/cities_areas_cache.dart';
 import 'models/city.dart';
 import 'models/area.dart';
+import 'logging.dart';
 
 /// Main service class for fetching cities and areas
 class CitiesAreasService {
@@ -58,35 +59,36 @@ class CitiesAreasService {
   /// Returns cached data if available (when forceRefresh is false),
   /// otherwise fetches from API and updates cache.
   Future<List<City>> getCities({bool forceRefresh = false}) async {
+    UaeCityAreasLogging.log('getCities(forceRefresh: $forceRefresh)');
     final cache = await _getCache();
     final prefs = await SharedPreferences.getInstance();
 
     if (!forceRefresh) {
       final cached = await cache.getCachedCities();
       if (cached != null) {
-        // Check TTL if configured
         if (cacheTTL != null) {
           final timestamp = prefs.getInt('cities_areas_cache_cities_timestamp');
           if (timestamp != null) {
             final cacheAge = DateTime.now().millisecondsSinceEpoch - timestamp;
             if (cacheAge < cacheTTL!.inMilliseconds) {
+              UaeCityAreasLogging.log(
+                  'getCities: returning ${cached.length} cities from cache');
               return cached;
             }
-            // Cache expired, continue to fetch fresh data
           }
         } else {
-          // No TTL, return cached data
+          UaeCityAreasLogging.log(
+              'getCities: returning ${cached.length} cities from cache');
           return cached;
         }
       }
     }
 
-    // Fetch from API
+    UaeCityAreasLogging.log('getCities: fetching from API');
     final cities = await _api.getCities();
-
-    // Save to cache
     await cache.saveCities(cities);
-
+    UaeCityAreasLogging.log(
+        'getCities: saved ${cities.length} cities to cache');
     return cities;
   }
 
@@ -101,13 +103,14 @@ class CitiesAreasService {
     int cityId, {
     bool forceRefresh = false,
   }) async {
+    UaeCityAreasLogging.log(
+        'getAreasByCityId($cityId, forceRefresh: $forceRefresh)');
     final cache = await _getCache();
     final prefs = await SharedPreferences.getInstance();
 
     if (!forceRefresh) {
       final cached = await cache.getCachedAreas(cityId);
       if (cached != null) {
-        // Check TTL if configured
         if (cacheTTL != null) {
           final timestamp = prefs.getInt(
             'cities_areas_cache_areas_${cityId}_timestamp',
@@ -115,23 +118,24 @@ class CitiesAreasService {
           if (timestamp != null) {
             final cacheAge = DateTime.now().millisecondsSinceEpoch - timestamp;
             if (cacheAge < cacheTTL!.inMilliseconds) {
+              UaeCityAreasLogging.log(
+                  'getAreasByCityId: returning ${cached.length} areas from cache');
               return cached;
             }
-            // Cache expired, continue to fetch fresh data
           }
         } else {
-          // No TTL, return cached data
+          UaeCityAreasLogging.log(
+              'getAreasByCityId: returning ${cached.length} areas from cache');
           return cached;
         }
       }
     }
 
-    // Fetch from API
+    UaeCityAreasLogging.log('getAreasByCityId: fetching from API');
     final areas = await _api.getAreasByCityId(cityId);
-
-    // Save to cache
     await cache.saveAreas(cityId, areas);
-
+    UaeCityAreasLogging.log(
+        'getAreasByCityId: saved ${areas.length} areas to cache');
     return areas;
   }
 
@@ -142,26 +146,24 @@ class CitiesAreasService {
     City city, {
     bool forceRefresh = false,
   }) {
+    UaeCityAreasLogging.log('getAreasByCity(${city.name})');
     return getAreasByCityId(city.id, forceRefresh: forceRefresh);
   }
 
-  /// Clears all cached data
   Future<void> clearCache() async {
+    UaeCityAreasLogging.log('clearCache');
     final cache = await _getCache();
     await cache.clearCache();
   }
 
-  /// Clears only cities cache
   Future<void> clearCitiesCache() async {
+    UaeCityAreasLogging.log('clearCitiesCache');
     final cache = await _getCache();
     await cache.clearCitiesCache();
   }
 
-  /// Clears areas cache for a specific city or all cities
-  ///
-  /// [cityId] - If provided, clears cache for that city only.
-  ///            If null, clears cache for all cities.
   Future<void> clearAreasCache(int? cityId) async {
+    UaeCityAreasLogging.log('clearAreasCache($cityId)');
     final cache = await _getCache();
     await cache.clearAreasCache(cityId);
   }

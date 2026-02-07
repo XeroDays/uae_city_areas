@@ -3,6 +3,7 @@ import 'api_client.dart';
 import '../models/city.dart';
 import '../models/area.dart';
 import '../errors/cities_areas_exceptions.dart';
+import '../logging.dart';
 
 /// API layer for cities and areas endpoints
 class CitiesAreasApi {
@@ -18,18 +19,21 @@ class CitiesAreasApi {
   /// Throws [ApiException] if API returns error status code
   /// Throws [ParseException] if JSON parsing fails
   Future<List<City>> getCities() async {
+    UaeCityAreasLogging.log('getCities: fetching from API');
     try {
       final response = await _client.get('/api/geoemirates/get');
       final jsonData = json.decode(response) as List;
-
-      return jsonData
+      final cities = jsonData
           .map((item) => City.fromJson(item as Map<String, dynamic>))
           .toList();
+      UaeCityAreasLogging.log('getCities: parsed ${cities.length} cities');
+      return cities;
     } on NetworkException {
       rethrow;
     } on ApiException {
       rethrow;
     } catch (e) {
+      UaeCityAreasLogging.log('getCities: parse error $e');
       throw ParseException('Failed to parse cities response: $e');
     }
   }
@@ -42,24 +46,27 @@ class CitiesAreasApi {
   /// Throws [ApiException] if API returns error status code
   /// Throws [ParseException] if JSON parsing fails
   Future<List<Area>> getAreasByCityId(int cityId) async {
+    UaeCityAreasLogging.log('getAreasByCityId: fetching for cityId=$cityId');
     try {
       final response =
           await _client.get('/api/geoemirates/GetAreasByEmirateId/$cityId');
       final jsonData = json.decode(response) as List;
 
-      return jsonData.map((item) {
+      final areas = jsonData.map((item) {
         final areaJson = item as Map<String, dynamic>;
-        // Ensure emirateId is set (use from API if available, otherwise use cityId parameter)
         if (!areaJson.containsKey('emirateId')) {
           areaJson['emirateId'] = cityId;
         }
         return Area.fromJson(areaJson);
       }).toList();
+      UaeCityAreasLogging.log('getAreasByCityId: parsed ${areas.length} areas');
+      return areas;
     } on NetworkException {
       rethrow;
     } on ApiException {
       rethrow;
     } catch (e) {
+      UaeCityAreasLogging.log('getAreasByCityId: parse error $e');
       throw ParseException('Failed to parse areas response: $e');
     }
   }

@@ -27,62 +27,55 @@ dependencies:
 
 ## Usage
 
-### Basic Usage
+### Basic Usage (no object creation)
+
+Call the plugin directly via static methods:
 
 ```dart
 import 'package:uae_city_areas/uae_city_areas.dart';
 
-// Create service instance
-final citiesAreas = CitiesAreasService();
-
-// Fetch cities
-final cities = await citiesAreas.getCities();
+// Fetch cities (no need to create any object)
+final cities = await UaeCityAreas.getCities();
 
 // Fetch areas for a city
-final areas = await citiesAreas.getAreasByCityId(cityId);
+final areas = await UaeCityAreas.getAreasByCityId(cityId);
 ```
 
-### With Custom Configuration
+### Optional: Custom Configuration
+
+Call once at app startup if you need a custom base URL or headers:
 
 ```dart
-final citiesAreas = CitiesAreasService(
-  baseUrl: 'https://api.softasium.com',  // Optional, has default
-  headers: {'Authorization': 'Bearer token'},  // Optional
-  cacheTTL: Duration(days: 7),  // Optional cache expiration
-);
+void main() {
+  UaeCityAreas.configure(
+    baseUrl: 'https://api.softasium.com',
+    headers: {'Authorization': 'Bearer token'},
+    cacheTTL: Duration(days: 7),
+  );
+  runApp(MyApp());
+}
 ```
 
 ### Force Refresh
 
 ```dart
-// Force refresh cities (bypass cache)
-final cities = await citiesAreas.getCities(forceRefresh: true);
-
-// Force refresh areas
-final areas = await citiesAreas.getAreasByCityId(cityId, forceRefresh: true);
+final cities = await UaeCityAreas.getCities(forceRefresh: true);
+final areas = await UaeCityAreas.getAreasByCityId(cityId, forceRefresh: true);
 ```
 
 ### Cache Management
 
 ```dart
-// Clear all cache
-await citiesAreas.clearCache();
-
-// Clear only cities cache
-await citiesAreas.clearCitiesCache();
-
-// Clear areas cache for specific city
-await citiesAreas.clearAreasCache(cityId);
-
-// Clear all areas cache
-await citiesAreas.clearAreasCache(null);
+await UaeCityAreas.clearCache();
+await UaeCityAreas.clearCitiesCache();
+await UaeCityAreas.clearAreasCache(cityId);   // or null to clear all
 ```
 
 ### Error Handling
 
 ```dart
 try {
-  final cities = await citiesAreas.getCities();
+  final cities = await UaeCityAreas.getCities();
 } on NetworkException catch (e) {
   // Handle network error
 } on ApiException catch (e) {
@@ -94,20 +87,36 @@ try {
 }
 ```
 
+### Logging
+
+Logging is off by default. Enable it to print plugin actions (API calls, cache hits/misses) to the console:
+
+```dart
+import 'package:uae_city_areas/uae_city_areas.dart';
+
+void main() {
+  UaeCityAreasLogging.enable = true;  // Enable plugin logging
+  runApp(MyApp());
+}
+```
+
 ## API
 
-### CitiesAreasService
+### UaeCityAreas (static – use this, no object creation)
 
-Main service class for fetching UAE cities, emirates, and areas (locations) in your Flutter app.
+Call these directly:
 
-#### Methods
+- `UaeCityAreas.getCities({bool forceRefresh = false})` - Fetch all cities/emirates
+- `UaeCityAreas.getAreasByCityId(int cityId, {bool forceRefresh = false})` - Fetch areas for a city
+- `UaeCityAreas.getAreasByCity(City city, {bool forceRefresh = false})` - Fetch areas by City object
+- `UaeCityAreas.clearCache()` - Clear all cached data
+- `UaeCityAreas.clearCitiesCache()` - Clear only cities cache
+- `UaeCityAreas.clearAreasCache(int? cityId)` - Clear areas cache (specific city or all)
+- `UaeCityAreas.configure(...)` - Optional one-time config (baseUrl, headers, cacheTTL)
 
-- `Future<List<City>> getCities({bool forceRefresh = false})` - Fetch all cities/emirates
-- `Future<List<Area>> getAreasByCityId(int cityId, {bool forceRefresh = false})` - Fetch areas for a city
-- `Future<List<Area>> getAreasByCity(City city, {bool forceRefresh = false})` - Convenience method to fetch areas by City object
-- `Future<void> clearCache()` - Clear all cached data
-- `Future<void> clearCitiesCache()` - Clear only cities cache
-- `Future<void> clearAreasCache(int? cityId)` - Clear areas cache (specific city or all)
+### CitiesAreasService (optional)
+
+For custom instances (e.g. multiple base URLs), create `CitiesAreasService()` and use its methods. Most apps can use `UaeCityAreas` static API only.
 
 ### Models
 

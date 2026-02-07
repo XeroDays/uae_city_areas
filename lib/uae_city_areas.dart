@@ -7,4 +7,6 @@ library;
 export 'src/models/city.dart';
 export 'src/models/area.dart';
 export 'src/cities_areas_service.dart';
+export 'src/uae_city_areas.dart';
 export 'src/errors/cities_areas_exceptions.dart';
+export 'src/logging.dart';
